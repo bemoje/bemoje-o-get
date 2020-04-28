@@ -1,6 +1,6 @@
 {
    "name": "@bemoje/o-get",
-   "version": "1.0.0",
+   "version": "2.0.0",
    "description": "Get an object property, with dot-notation support for deeply nested properties.",
    "main": "dist/o-get.umd.js",
    "module": "dist/o-get.esm.js",
@@ -45,7 +45,11 @@
       "web": "https://github.io/bemoje/"
    },
    "license": "MIT",
-   "dependencies": {},
+   "dependencies": {
+      "@bemoje/assert-args": "^1.0.0",
+      "@bemoje/assert-type": "^1.0.0",
+      "@bemoje/is-string": "^1.0.0"
+   },
    "devDependencies": {
       "babel-core": "^6.26.3",
       "babel-jest": "^25.4.0",
