@@ -321,18 +321,21 @@ const repo = new (class {
 			'## Usage',
 			'',
 			'```javascript',
-			'import ' + method + " from '" + fullName + "'",
 			'',
 			this.filesIn(this.examplesDirPath)
 				.map((filePath) => {
 					const lines = this.readFile(
 						path.join(this.examplesDirPath, filePath),
 					).split(/\r\n|\r|\n/gm)
-					lines.shift()
-					if (lines[0].length === 0) {
-						lines.shift()
-					}
-					return lines.join('\n')
+					lines[0] = lines[0].replace(
+						/ from '(.+)'/,
+						" from '" + fullName + "'",
+					)
+					return lines
+						.map((line) => {
+							return line.replace(/\t/g, '  ')
+						})
+						.join('\n')
 				})
 				.join('\n\n'),
 			'```',
@@ -366,7 +369,6 @@ const repo = new (class {
 		const apiPath = path.join(process.cwd(), 'docs', 'api.md')
 		if (fs.existsSync(apiPath)) {
 			let lines = splitLines(this.readFile(apiPath))
-			lines.shift()
 			lines = lines
 				.map((line) => {
 					if (line.includes('###')) {
@@ -380,16 +382,7 @@ const repo = new (class {
 					}
 					return line
 				})
-				.map((line) => {
-					if (line.indexOf('Returns ') === 0) {
-						return line.replace('Returns ', '##### Returns\n')
-					}
-					return line
-				})
-			lines = lines.join('\n\n')
-			return (
-				'#' + lines.slice(lines.indexOf('## ' + this.parseName().method))
-			)
+			return lines.join('\n\n')
 		}
 		return ''
 	}
